@@ -7,7 +7,7 @@ import com.dmitry.countriesapiapp.model.Country
 import com.dmitry.coutriesapiapp.databinding.ItemCountryBinding
 
 class CountriesAdapter(
-    private val countryClickListener: (country: Country) -> Unit,
+    private val countryClickListener: (name: String) -> Unit,
 ) : RecyclerView.Adapter<CountriesAdapter.ViewHolder>() {
 
     private var list: MutableList<Country> = mutableListOf()
@@ -32,7 +32,7 @@ class CountriesAdapter(
 
         fun bind(response: Country) {
             binding.tvName.text = response.name
-            binding.root.setOnClickListener { countryClickListener(response) }
+            binding.root.setOnClickListener { countryClickListener(response.name!!) }
         }
     }
 

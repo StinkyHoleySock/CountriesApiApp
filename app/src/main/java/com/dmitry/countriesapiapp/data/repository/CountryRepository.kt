@@ -5,4 +5,5 @@ import retrofit2.Response
 
 interface CountryRepository {
     suspend fun getOrdersList(): Response<ArrayList<Country>>
+    suspend fun getCountryDetails(name: String): Response<ArrayList<Country>>
 }

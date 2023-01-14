@@ -8,7 +8,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dmitry.countriesapiapp.NetworkUtil
 import com.dmitry.countriesapiapp.applyVisibility
-import com.dmitry.countriesapiapp.model.Country
 import com.dmitry.coutriesapiapp.R
 import com.dmitry.coutriesapiapp.databinding.FragmentListBinding
 
@@ -58,8 +57,8 @@ class ListFragment : Fragment(R.layout.fragment_list) {
         _binding = null
     }
 
-    private fun navigateToDetails(country: Country) {
-        val direction = ListFragmentDirections.actionListFragmentToDetailsFragment(country)
+    private fun navigateToDetails(name: String) {
+        val direction = ListFragmentDirections.actionListFragmentToDetailsFragment(name)
         findNavController().navigate(direction)
     }
 }

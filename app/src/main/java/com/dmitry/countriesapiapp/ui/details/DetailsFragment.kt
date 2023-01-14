@@ -3,8 +3,10 @@ package com.dmitry.countriesapiapp.ui.details
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
+import com.dmitry.countriesapiapp.applyVisibility
 import com.dmitry.coutriesapiapp.R
 import com.dmitry.coutriesapiapp.databinding.FragmentDetailsBinding
 
@@ -12,35 +14,39 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
     private var _binding: FragmentDetailsBinding? = null
     private val binding: FragmentDetailsBinding get() = _binding!!
+    lateinit var viewModel: DetailsViewModel
     private val args: DetailsFragmentArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel = ViewModelProvider(requireActivity())[DetailsViewModel::class.java]
         _binding = FragmentDetailsBinding.bind(view)
 
-        val currencyName = args.country.currencies[0].name ?: "No currency name"
-        val currencySymbol = args.country.currencies[0].symbol ?: "No currency symbol"
-        val region = args.country.region ?: "No region"
-        val timezones = args.country.timezones ?: "No timezone"
-        val imageLink = args.country.flags.png ?: args.country.flags.svg
+        viewModel.getCountryDetails(args.name)
+        viewModel.countryDetails.observe(viewLifecycleOwner) { country ->
 
-        with(binding) {
-            tvName.text = args.country.name
-            tvCapital.text = requireContext().getString(R.string.capital, args.country.capital)
-            tvCurrency.text = requireContext().getString(
+            binding.tvName.text = args.name
+            binding.tvCapital.text = requireContext().getString(R.string.capital, country.capital)
+            binding.tvCurrency.text = requireContext().getString(
                 R.string.currency,
-                currencyName,
-                currencySymbol
+                country.currencies?.get(0)?.name,
+                country.currencies?.get(0)?.symbol
             )
-            tvRegion.text = requireContext().getString(R.string.region, region)
-            tvTimezone.text = requireContext().getString(R.string.timezone, timezones)
+            binding.tvRegion.text = requireContext().getString(R.string.region, country.region)
+            binding.tvTimezone.text =
+                requireContext().getString(R.string.timezone, country.timezones)
 
             Glide.with(requireContext())
-                .load(imageLink)
-                .into(ivFlag)
+                .load(country.flags?.png ?: country.flags?.svg)
+                .into(binding.ivFlag)
+
+        }
+
+        viewModel.loading.observe(viewLifecycleOwner) { isLoading ->
+            binding.mainContainer.applyVisibility(!isLoading)
+            binding.progressCircular.applyVisibility(isLoading)
         }
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

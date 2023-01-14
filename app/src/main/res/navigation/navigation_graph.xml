@@ -18,7 +18,7 @@
         android:label="DetailsFragment">
 
         <argument
-            android:name="country"
-            app:argType="com.dmitry.countriesapiapp.model.Country" />
+            android:name="name"
+            app:argType="string" />
     </fragment>
 </navigation>

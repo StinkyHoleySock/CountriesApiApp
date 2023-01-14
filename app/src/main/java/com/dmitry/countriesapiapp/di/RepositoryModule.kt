@@ -1,4 +1,4 @@
-package com.dmitry.taxiapp.di
+package com.dmitry.countriesapiapp.di
 
 
 import com.dmitry.countriesapiapp.data.repository.CountryRepository

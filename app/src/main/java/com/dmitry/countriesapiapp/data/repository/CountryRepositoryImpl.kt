@@ -12,4 +12,8 @@ class CountryRepositoryImpl @Inject constructor(
     override suspend fun getOrdersList(): Response<ArrayList<Country>> {
         return service.getAllCountries()
     }
+
+    override suspend fun getCountryDetails(name: String): Response<ArrayList<Country>> {
+        return service.getDetails(name)
+    }
 }
