@@ -10,6 +10,7 @@ Stack:
 - Glide
 - Hilt
 - Navigation component, navArgs
+- ViewBinding
 
 List and details
 
